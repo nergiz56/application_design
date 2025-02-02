@@ -49,6 +49,10 @@ UI.prototype.showAlert = function(message, className){
     const row = document.querySelector('.row');
     // beforeBegin, afterBegin, beforeEnd, afterEnd
     row.insertAdjacentHTML('afterBegin', alert) ;
+
+    setTimeout(() =>{//elemanı belirlediğimiz sürede kaybeder
+        document.querySelector('.alert').remove();
+    },3000);   
 }
 
 
