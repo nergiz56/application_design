@@ -31,6 +31,29 @@ UI.prototype.clearControls = function(){
 
 }
 
+UI.prototype.deleteCourse = function(element){
+    if(element.classList.contains('delete')){ // burada delete içeren elamanı alıyoruz.
+        element.parentElement.parentElement.remove();
+
+    };
+}
+
+UI.prototype.showAlert = function(message, className){
+
+    var alert = `
+        <div class= "alert alert-${className}">
+            ${message}
+        </div>    
+    `;
+
+    const row = document.querySelector('.row');
+    // beforeBegin, afterBegin, beforeEnd, afterEnd
+    row.insertAdjacentHTML('afterBegin', alert) ;
+}
+
+
+
+
 document.getElementById('new-course').addEventListener('submit', function(e){
     const title = document.getElementById('title').value;
     const instructor = document.getElementById('instructor').value;
@@ -42,18 +65,26 @@ document.getElementById('new-course').addEventListener('submit', function(e){
     // create UI
      const ui = new UI();
 
-    // add course to list
-     ui.addCourseToList(course); 
- 
-     // clear controls
-     ui.clearControls();
+    if(title === '' || instructor === '' || image === '' ){
+
+        ui.showAlert('Please complete the form', 'warning');
+
+    }else{
+        // add course to list
+        ui.addCourseToList(course); 
+    
+        // clear controls
+        ui.clearControls();
+
+        ui.showAlert('the course has been added','success' )// kursunuz eklendi
+    }
  
      e.preventDefault();
-
 
 });
 
 document.getElementById('course-list').addEventListener('click', function(e){
-    //console.log(e.target)
-}
-)
+    const ui = new UI();
+    ui.deleteCourse(e.target);
+    ui.showAlert('the course has been deleted', 'danger'); // kursunuz silindi,
+});
